@@ -70,3 +70,5 @@ const userSchema: Schema<User> = new Schema({
 
 const UserModel = (models.User as Model<User>) ||
     model<User>("User", userSchema)
+
+export default UserModel;
