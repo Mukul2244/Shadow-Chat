@@ -10,14 +10,14 @@ import { useRouter } from "next/navigation"
 import { signUpSchema } from "@/schemas/signUpSchema"
 import axios, { AxiosError } from "axios"
 import { apiResponse } from "@/types/apiResponse"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl,  FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 
 
 
-function Page() {
+function SignUp() {
   const [username, setUsername] = useState("")
   const [usernameMessage, setUsernameMessage] = useState("")
   const [isCheckingUsername, setIsCheckingUsername] = useState(false)
@@ -116,9 +116,9 @@ function Page() {
                   }
                   {!isCheckingUsername && usernameMessage && (
                     <p
-                      className={`text-sm ${usernameMessage === 'Username is unique'
+                      className={`text-sm ${usernameMessage === "Username is available"
                           ? 'text-green-500'
-                          : 'text-red-500'
+                          : "text-red-500"
                         }`}
                     >
                       {usernameMessage}
@@ -194,6 +194,6 @@ function Page() {
   );
 }
 
-export default Page;
+export default SignUp;
 
 
