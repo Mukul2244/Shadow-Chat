@@ -13,14 +13,16 @@ import { verifySchema } from '@/schemas/verifySchema';
 import { apiResponse } from '@/types/apiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios, { AxiosError } from 'axios';
+import { Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
 
 const VerifyAccount = () => {
     const router = useRouter();
     const params = useParams<{ username: string }>()
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const { toast } = useToast()
 
     // zod implementation
@@ -30,6 +32,7 @@ const VerifyAccount = () => {
     })
 
     const onSubmit = async (data: z.infer<typeof verifySchema>) => {
+        setIsSubmitting(true)
         try {
             const response = await axios.post(`/api/verify-code`, {
                 username: params.username,
@@ -40,7 +43,7 @@ const VerifyAccount = () => {
                 description: response.data.message
             })
             router.replace("/sign-in")
-
+            setIsSubmitting(false)
         } catch (error) {
             console.error("Error in sign up of user", error);
             const axiosError = error as AxiosError<apiResponse>
@@ -50,7 +53,7 @@ const VerifyAccount = () => {
                 description: axiosError.response?.data.message,
                 variant: "destructive"
             })
-
+            setIsSubmitting(false)
         }
     }
     return (
@@ -59,7 +62,7 @@ const VerifyAccount = () => {
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
                 <div className="text-center">
                     <h1 className="text-3xl font-extrabold tracking-tight lg:text-4xl mb-6">
-                      Verify your Account
+                        Verify your Account
                     </h1>
                     <p className="mb-4">Enter the verification code sent to your email</p>
                 </div>
@@ -76,7 +79,15 @@ const VerifyAccount = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Verify</Button>
+                        <Button type="submit" disabled={isSubmitting}>
+                            {
+                                isSubmitting ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
+                                    </>
+                                ) : ("Verify")
+                            }
+                        </Button>
                     </form>
                 </Form>
 

@@ -17,12 +17,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { signInSchema } from '@/schemas/signInSchema';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 
 function SignIn() {
 
   const { toast } = useToast()
   const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // zod implementation
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -34,7 +37,7 @@ function SignIn() {
   })
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-
+    setIsSubmitting(true)
     const result = await signIn('credentials', {
       redirect: false,
       identifier: data.identifier,
@@ -60,6 +63,7 @@ function SignIn() {
     if (result?.url) {
       router.replace("/dashboard")
     }
+    setIsSubmitting(false);
   }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
@@ -108,16 +112,22 @@ function SignIn() {
                 </FormItem>
               )}
             />
-            <Button type="submit">
-              SignIn
+            <Button type="submit" disabled={isSubmitting}>
+              {
+                isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
+                  </>
+                ) : ("Sign in")
+              }
             </Button>
           </form>
         </Form>
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
-              Sign in
+            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
+              Sign up
             </Link>
           </p>
         </div>
