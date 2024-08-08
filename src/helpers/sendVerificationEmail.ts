@@ -1,15 +1,15 @@
 import { resend } from "@/lib/resend"
-import VerificationEmail from "@/../emails/verificationEmail"
+import VerificationEmail from "../../emails/verificationEmail"
 import { apiResponse } from "@/types/apiResponse"
 
 export async function sendVerificationEmail(
     email: string,
-    username: string,
     verifyCode: string,
+    username: string,
 ): Promise<apiResponse> {
     try {
         await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'codecrafter9@gmail.com',
             to: email,
             subject: "Shadow Chat | Verification code",
             react: VerificationEmail({username,otp:verifyCode}),
