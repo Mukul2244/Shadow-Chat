@@ -61,6 +61,12 @@ function UserDashboard() {
       setIsSwitchLoading(false);
       try {
         const response = await axios.get<apiResponse>('/api/get-messages');
+        if(response.data.message==="No Message to Show"){
+          toast({
+            title: "No Message to Show",
+            variant:"default"
+          })
+        }
         setMessages(response.data.messages || []);
         if (refresh) {
           toast({
@@ -161,10 +167,10 @@ function UserDashboard() {
           Accept Messages: {acceptMessages ? 'On' : 'Off'}
         </span>
       </div>
-      <Separator />
+      <Separator  className='bg-black'/>
 
       <Button
-        className="mt-4"
+        className="m-4 "
         variant="outline"
         onClick={(e) => {
           e.preventDefault();
@@ -177,7 +183,8 @@ function UserDashboard() {
           <RefreshCcw className="h-4 w-4" />
         )}
       </Button>
-
+      
+      <Separator  className='bg-black'/>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
           messages.map((message, index) => (
