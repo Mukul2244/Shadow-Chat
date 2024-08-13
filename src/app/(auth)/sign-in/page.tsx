@@ -84,7 +84,7 @@ function SignIn() {
                 <FormItem>
                   <FormLabel>Email/Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="one"
+                    <Input placeholder="username"
                       {...field}
                     />
                   </FormControl>
@@ -100,7 +100,7 @@ function SignIn() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="12345678"
+                    <Input type="password" placeholder="password"
                       {...field}
 
                     />
